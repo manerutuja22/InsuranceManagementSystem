@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between mb-3">
+
+    <h2>Policies</h2>
+
+    <a href="{% url 'add_policy' %}" class="btn btn-success">
+        Add Policy
+    </a>
+
+</div>
+
+<table class="table table-bordered table-hover bg-white">
+
+    <thead class="table-dark">
+
+        <tr>
+            <th>ID</th>
+            <th>Policy Number</th>
+            <th>Policy Name</th>
+            <th>Policy Type</th>
+            <th>Premium Amount</th>
+            <th>Coverage Term</th>
+            <th>Start Date</th>
+            <th>Customer</th>
+            <th>Action</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for policy in policies %}
+
+        <tr>
+
+            <td>{{ policy.id }}</td>
+
+            <td>{{ policy.policy_number }}</td>
+
+            <td>{{ policy.policy_name }}</td>
+
+            <td>{{ policy.policy_type }}</td>
+
+            <td>{{ policy.premium_amount }}</td>
+
+            <td>{{ policy.coverage_term }} years</td>
+
+            <td>{{ policy.effective_start_date }}</td>
+
+            <td>
+                {{ policy.customer.first_name }}
+                {{ policy.customer.last_name }}
+            </td>
+
+            <td>
+
+                <a href="{% url 'edit_policy' policy.id %}"
+                   class="btn btn-warning btn-sm">
+                    Edit
+                </a>
+
+                <a href="{% url 'delete_policy' policy.id %}"
+                   class="btn btn-danger btn-sm">
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+            <td colspan="9" class="text-center">
+                No Policies Found
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

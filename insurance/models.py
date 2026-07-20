@@ -58,5 +58,27 @@ class Lead(models.Model):
 
     assigned_agent_name = models.CharField(max_length=100)
 
+    
     def __str__(self):
         return self.prospect_name
+    
+class AuthToken(models.Model):
+    token = models.CharField(max_length=255, unique=True)
+    role = models.CharField(max_length=20)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.role} - {self.token}"
+
+class AuthToken(models.Model):
+    ROLE_CHOICES = [
+        ("ADMIN", "Admin"),
+        ("AGENT", "Agent"),
+    ]
+
+    token = models.CharField(max_length=255, unique=True)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.role} - {self.token}"
