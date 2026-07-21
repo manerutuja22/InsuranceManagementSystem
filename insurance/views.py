@@ -12,6 +12,11 @@ import json
 from django.http import JsonResponse
 from .serializers import customer_to_dict
 
+from .models import Lead
+from .form import LeadForm
+
+from django.db.models import Sum, Count
+
 def customer_list(request):
     customers = Customer.objects.all()
     return render(request, "customer_list.html", {"customers": customers})
@@ -107,3 +112,119 @@ def test_auth(request):
         "message": "Authentication successful",
         "role": request.user_role
     })
+
+from .models import Lead
+from .form import LeadForm
+def lead_list(request):
+    leads = Lead.objects.all()
+
+    return render(
+        request,
+        "lead_list.html",
+        {"leads": leads}
+    )
+
+
+def add_lead(request):
+
+    if request.method == "POST":
+
+        form = LeadForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("lead_list")
+
+    else:
+        form = LeadForm()
+
+    return render(
+        request,
+        "lead_form.html",
+        {"form": form}
+    )
+
+
+def edit_lead(request, id):
+
+    lead = get_object_or_404(Lead, id=id)
+
+    if request.method == "POST":
+
+        form = LeadForm(
+            request.POST,
+            instance=lead
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect("lead_list")
+
+    else:
+
+        form = LeadForm(
+            instance=lead
+        )
+
+    return render(
+        request,
+        "lead_form.html",
+        {"form": form}
+    )
+
+
+def delete_lead(request, id):
+
+    lead = get_object_or_404(
+        Lead,
+        id=id
+    )
+
+    lead.delete()
+
+    return redirect("lead_list")
+
+def reports(request):
+
+    total_customers = Customer.objects.count()
+
+    active_customers = Customer.objects.filter(
+        account_status="ACTIVE"
+    ).count()
+
+    inactive_customers = Customer.objects.filter(
+        account_status="INACTIVE"
+    ).count()
+
+    total_policies = Policy.objects.count()
+
+    total_premium = Policy.objects.aggregate(
+        total=Sum("premium_amount")
+    )["total"] or 0
+
+    total_leads = Lead.objects.count()
+
+    lead_status = Lead.objects.values(
+        "lead_status"
+    ).annotate(
+        count=Count("id")
+    )
+
+    policy_types = Policy.objects.values(
+        "policy_type"
+    ).annotate(
+        count=Count("id")
+    )
+
+    context = {
+        "total_customers": total_customers,
+        "active_customers": active_customers,
+        "inactive_customers": inactive_customers,
+        "total_policies": total_policies,
+        "total_premium": total_premium,
+        "total_leads": total_leads,
+        "lead_status": lead_status,
+        "policy_types": policy_types,
+    }
+
+    return render(request, "reports.html", context)

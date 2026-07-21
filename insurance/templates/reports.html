@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-title">
+    <div>
+        <h2>Reports & Analytics</h2>
+        <p>Overview of your insurance management system</p>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="custom-card p-4">
+            <p class="text-muted mb-1">Total Customers</p>
+            <h2>{{ total_customers }}</h2>
+            <i class="bi bi-people fs-1 text-primary"></i>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="custom-card p-4">
+            <p class="text-muted mb-1">Total Policies</p>
+            <h2>{{ total_policies }}</h2>
+            <i class="bi bi-file-earmark-text fs-1 text-success"></i>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="custom-card p-4">
+            <p class="text-muted mb-1">Total Leads</p>
+            <h2>{{ total_leads }}</h2>
+            <i class="bi bi-person-lines-fill fs-1 text-warning"></i>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="custom-card p-4">
+            <p class="text-muted mb-1">Total Premium</p>
+            <h2>₹{{ total_premium }}</h2>
+            <i class="bi bi-currency-rupee fs-1 text-danger"></i>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="custom-card p-4 h-100">
+            <h4>Customer Overview</h4>
+
+            <div class="report-row">
+                <span>Active Customers</span>
+                <strong>{{ active_customers }}</strong>
+            </div>
+
+            <div class="report-row">
+                <span>Inactive Customers</span>
+                <strong>{{ inactive_customers }}</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="custom-card p-4 h-100">
+            <h4>Policies by Type</h4>
+
+            {% for policy in policy_types %}
+                <div class="report-row">
+                    <span>{{ policy.policy_type }}</span>
+                    <strong>{{ policy.count }}</strong>
+                </div>
+            {% empty %}
+                <p class="text-muted mt-3">No policy data available.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="custom-card p-4 mt-4">
+    <h4>Lead Status Overview</h4>
+
+    <div class="row g-3 mt-2">
+        {% for lead in lead_status %}
+            <div class="col-md-3">
+                <div class="status-box">
+                    <span>{{ lead.lead_status }}</span>
+                    <h2>{{ lead.count }}</h2>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">No lead data available.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

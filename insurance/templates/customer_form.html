@@ -2,37 +2,154 @@
 
 {% block content %}
 
-<div class="card shadow">
+<div class="page-title">
 
-<div class="card-header bg-primary text-white">
+    <div>
 
-<h3>Customer Form</h3>
+        <h2>Add Customer</h2>
 
-</div>
+        <p>Create a new insurance customer profile</p>
 
-<div class="card-body">
-
-<form method="POST">
-
-{% csrf_token %}
-
-{{ form.as_p }}
-
-<button class="btn btn-success">
-
-Save
-
-</button>
-
-<a href="/" class="btn btn-secondary">
-
-Back
-
-</a>
-
-</form>
+    </div>
 
 </div>
+
+
+<div class="custom-card form-card">
+
+    <div class="card-body p-4">
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            {% if form.errors %}
+
+            <div class="alert alert-danger">
+
+                Please correct the errors below.
+
+            </div>
+
+            {% endif %}
+
+
+            <div class="row g-4">
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        First Name
+
+                    </label>
+
+                    {{ form.first_name }}
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Last Name
+
+                    </label>
+
+                    {{ form.last_name }}
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Email Address
+
+                    </label>
+
+                    {{ form.email }}
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Phone Number
+
+                    </label>
+
+                    {{ form.phone_number }}
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Date of Birth
+
+                    </label>
+
+                    {{ form.date_of_birth }}
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Account Status
+
+                    </label>
+
+                    {{ form.account_status }}
+
+                </div>
+
+            </div>
+
+
+            <hr class="my-4">
+
+
+            <div class="d-flex justify-content-end gap-2">
+
+
+                <a href="{% url 'customer_list' %}"
+
+                   class="btn btn-light">
+
+                    Cancel
+
+                </a>
+
+
+                <button type="submit"
+
+                        class="btn btn-primary">
+
+                    <i class="bi bi-check-lg"></i>
+
+                    Save Customer
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
 
 </div>
 

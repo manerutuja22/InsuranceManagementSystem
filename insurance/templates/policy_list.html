@@ -2,87 +2,215 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between mb-3">
+<div class="page-title">
 
-    <h2>Policies</h2>
+    <div>
 
-    <a href="{% url 'add_policy' %}" class="btn btn-success">
+        <h2>Insurance Policies</h2>
+
+        <p>Manage customer insurance policies</p>
+
+    </div>
+
+
+    <a href="{% url 'add_policy' %}"
+
+       class="btn btn-primary">
+
+        <i class="bi bi-plus-lg"></i>
+
         Add Policy
+
     </a>
 
 </div>
 
-<table class="table table-bordered table-hover bg-white">
 
-    <thead class="table-dark">
+<div class="table-card">
 
-        <tr>
-            <th>ID</th>
-            <th>Policy Number</th>
-            <th>Policy Name</th>
-            <th>Policy Type</th>
-            <th>Premium Amount</th>
-            <th>Coverage Term</th>
-            <th>Start Date</th>
-            <th>Customer</th>
-            <th>Action</th>
-        </tr>
 
-    </thead>
+    <div class="d-flex justify-content-between mb-4">
 
-    <tbody>
+        <h5>
 
-        {% for policy in policies %}
+            Policy List
 
-        <tr>
+        </h5>
 
-            <td>{{ policy.id }}</td>
 
-            <td>{{ policy.policy_number }}</td>
+        <span class="text-muted">
 
-            <td>{{ policy.policy_name }}</td>
+            Total Policies:
 
-            <td>{{ policy.policy_type }}</td>
+            <strong>
 
-            <td>{{ policy.premium_amount }}</td>
+                {{ policies|length }}
 
-            <td>{{ policy.coverage_term }} years</td>
+            </strong>
 
-            <td>{{ policy.effective_start_date }}</td>
+        </span>
 
-            <td>
-                {{ policy.customer.first_name }}
-                {{ policy.customer.last_name }}
-            </td>
+    </div>
 
-            <td>
 
-                <a href="{% url 'edit_policy' policy.id %}"
-                   class="btn btn-warning btn-sm">
-                    Edit
-                </a>
+    <div class="table-responsive">
 
-                <a href="{% url 'delete_policy' policy.id %}"
-                   class="btn btn-danger btn-sm">
-                    Delete
-                </a>
 
-            </td>
+        <table class="table">
 
-        </tr>
 
-        {% empty %}
+            <thead>
 
-        <tr>
-            <td colspan="9" class="text-center">
-                No Policies Found
-            </td>
-        </tr>
+                <tr>
 
-        {% endfor %}
+                    <th>Policy Number</th>
 
-    </tbody>
+                    <th>Policy Name</th>
 
-</table>
+                    <th>Type</th>
+
+                    <th>Premium</th>
+
+                    <th>Term</th>
+
+                    <th>Start Date</th>
+
+                    <th>Customer</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                {% for policy in policies %}
+
+                <tr>
+
+
+                    <td>
+
+                        <strong>
+
+                            {{ policy.policy_number }}
+
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+
+                        {{ policy.policy_name }}
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="badge text-bg-info">
+
+                            {{ policy.policy_type }}
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        ₹{{ policy.premium_amount }}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ policy.coverage_term }} years
+
+                    </td>
+
+
+                    <td>
+
+                        {{ policy.effective_start_date }}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ policy.customer.first_name }}
+
+                        {{ policy.customer.last_name }}
+
+                    </td>
+
+
+                    <td>
+
+
+                        <a href="{% url 'edit_policy' policy.id %}"
+
+                           class="btn btn-sm btn-outline-warning">
+
+                            <i class="bi bi-pencil"></i>
+
+                        </a>
+
+
+                        <a href="{% url 'delete_policy' policy.id %}"
+
+                           class="btn btn-sm btn-outline-danger"
+
+                           onclick="return confirm('Delete this policy?')">
+
+                            <i class="bi bi-trash"></i>
+
+                        </a>
+
+
+                    </td>
+
+                </tr>
+
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="8"
+
+                        class="text-center py-5">
+
+
+                        <i class="bi bi-file-earmark-text fs-1 text-muted"></i>
+
+
+                        <p class="text-muted mt-3">
+
+                            No policies found.
+
+                        </p>
+
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
 
 {% endblock %}

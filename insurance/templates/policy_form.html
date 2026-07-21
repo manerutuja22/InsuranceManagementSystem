@@ -2,27 +2,166 @@
 
 {% block content %}
 
-<div class="card shadow">
+<div class="page-title">
 
-    <div class="card-header bg-primary text-white">
-        <h3>Policy Form</h3>
+    <div>
+
+        <h2>Add Insurance Policy</h2>
+
+        <p>Create a new insurance policy</p>
+
     </div>
 
-    <div class="card-body">
+</div>
+
+
+<div class="custom-card form-card">
+
+
+    <div class="card-body p-4">
+
 
         <form method="POST">
 
             {% csrf_token %}
 
-            {{ form.as_p }}
 
-            <button type="submit" class="btn btn-success">
-                Save Policy
-            </button>
+            {% if form.errors %}
 
-            <a href="{% url 'policy_list' %}" class="btn btn-secondary">
-                Back
-            </a>
+            <div class="alert alert-danger">
+
+                Please correct the errors below.
+
+            </div>
+
+            {% endif %}
+
+
+            <div class="row g-4">
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Policy Number
+
+                    </label>
+
+                    {{ form.policy_number }}
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Policy Name
+
+                    </label>
+
+                    {{ form.policy_name }}
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Policy Type
+
+                    </label>
+
+                    {{ form.policy_type }}
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Premium Amount
+
+                    </label>
+
+                    {{ form.premium_amount }}
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Coverage Term
+
+                    </label>
+
+                    {{ form.coverage_term }}
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Effective Start Date
+
+                    </label>
+
+                    {{ form.effective_start_date }}
+
+                </div>
+
+
+                <div class="col-md-12">
+
+                    <label class="form-label">
+
+                        Customer
+
+                    </label>
+
+                    {{ form.customer }}
+
+                </div>
+
+
+            </div>
+
+
+            <hr class="my-4">
+
+
+            <div class="d-flex justify-content-end gap-2">
+
+
+                <a href="{% url 'policy_list' %}"
+
+                   class="btn btn-light">
+
+                    Cancel
+
+                </a>
+
+
+                <button type="submit"
+
+                        class="btn btn-primary">
+
+                    <i class="bi bi-check-lg"></i>
+
+                    Save Policy
+
+                </button>
+
+
+            </div>
+
 
         </form>
 
