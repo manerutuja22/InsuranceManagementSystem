@@ -1,4 +1,4 @@
-from django.shortcuts import render
+# from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
@@ -7,6 +7,10 @@ from .form import CustomerForm
 
 from .models import Policy
 from .form import PolicyForm
+
+import json
+from django.http import JsonResponse
+from .serializers import customer_to_dict
 
 def customer_list(request):
     customers = Customer.objects.all()
@@ -95,3 +99,11 @@ def delete_policy(request, id):
     policy.delete()
 
     return redirect("policy_list")
+
+
+from django.http import JsonResponse
+def test_auth(request):
+    return JsonResponse({
+        "message": "Authentication successful",
+        "role": request.user_role
+    })

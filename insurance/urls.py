@@ -10,4 +10,5 @@ urlpatterns = [
     path("policies/add/", views.add_policy, name="add_policy"),
     path("policies/edit/<int:id>/", views.edit_policy, name="edit_policy"),
     path("policies/delete/<int:id>/", views.delete_policy, name="delete_policy"),
+    path("api/test-auth/", views.test_auth, name="test_auth"),
 ]
